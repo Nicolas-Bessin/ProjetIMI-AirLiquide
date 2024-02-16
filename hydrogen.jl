@@ -106,8 +106,8 @@ for test in 1:Nb_month
         @constraint(model, Ener_Bat_flux[i] <= Ener_stored_bat[i])
         @constraint(model, Ener_Bat_flux[i] <= Cap_max_bat_flux)
         @constraint(model, Ener_used_by_elec[i] <= Cap_max_elec)
-        @constraint(model, Ener_used_by_elec[i] <= Ener_PPA[i] + Ener_Market[i] + Ener_Bat_flux[i]/efficiency_bat)
-        @constraint(model, Ener_stored_bat[i+1] == Ener_PPA[i]+ Ener_Market[i] + Ener_Bat_flux[i]/efficiency_bat- Ener_used_by_elec[i])
+        @constraint(model, Ener_used_by_elec[i] <= Ener_PPA[i] + Ener_Market[i] + Ener_Bat_flux[i]*efficiency_bat)
+        @constraint(model, Ener_stored_bat[i+1] == Ener_PPA[i]+ Ener_Market[i] + Ener_Bat_flux[i]*efficiency_bat- Ener_used_by_elec[i])
         @constraint(model, Ener_stored_bat[i+1] <= Cap_max_bat_stock)
     end
 
@@ -148,7 +148,7 @@ for test in 1:Nb_month
     push!(plot_array_energy, plot_test_energy )
 
     plot(index_hyd_stock_level, h1[index_hyd_stock_level], label="Hydrogen_stored_tank", xlabel="Hours", ylabel="Value in kg")
-    plot_hyd_storage = plot!(index_hyd_stock_level, hyd_stock_level, label ="Hyd_sotck_level_constraint")
+    plot_hyd_storage = plot!(index_hyd_stock_level, hyd_stock_level, label ="Hyd_stock_level_constraint")
     push!(plot_array_hydrogen_storage, plot_hyd_storage)
 end
 
